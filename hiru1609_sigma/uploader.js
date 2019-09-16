@@ -3,7 +3,7 @@ const s3 = new AWS.S3();
 
 exports.handler = function (event, context, callback) {
     console.log(event);
-
+    let img = Buffer.from(event.body, "base64");
     s3.putObject({
         "Body": image,
         "Bucket": "hirudinee0508",

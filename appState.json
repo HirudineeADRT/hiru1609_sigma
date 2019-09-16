@@ -8,7 +8,9 @@
         "type": "DIRECTORY",
         "isDirectory": true,
         "children": [
-          "429c74c4-9e87-410d-833f-9e626f5e1025"
+          "429c74c4-9e87-410d-833f-9e626f5e1025",
+          "6681999b-e672-4400-99d4-43fbcd62f5d8",
+          "53704339-93a4-4ae2-9c83-eab0509b7b30"
         ],
         "isRemovable": false,
         "filePath": "hiru1609_sigma"
@@ -22,7 +24,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "hiru1609_sigma/uploader.js",
-        "code": "let AWS = require('aws-sdk');\nconst s3 = new AWS.S3();\n\nexports.handler = function (event, context, callback) {\n    console.log(event);\n\n    s3.putObject({\n        \"Body\": image,\n        \"Bucket\": \"hirudinee0508\",\n        \"Key\": \"test\",\n        \"ACL\": \"public-read\"\n    })\n        .promise()\n        .then(data => {\n            console.log(data);           \n                callback(null, {\n        \"isBase64Encoded\": true,\n        \"statusCode\": 200,\n        \"headers\": {\n            \"headerName\": \"headerValue\"\n        },\n        \"body\": \"...\"\n    });\n        })\n        .catch(err => {\n            console.log(err, err.stack);\n            callback(err); // an error occurred\n        });\n\n}",
+        "code": "let AWS = require('aws-sdk');\nconst s3 = new AWS.S3();\n\nexports.handler = function (event, context, callback) {\n    console.log(event);\n    let img = Buffer.from(event.body, \"base64\");\n    s3.putObject({\n        \"Body\": image,\n        \"Bucket\": \"hirudinee0508\",\n        \"Key\": \"test\",\n        \"ACL\": \"public-read\"\n    })\n        .promise()\n        .then(data => {\n            console.log(data);           \n                callback(null, {\n        \"isBase64Encoded\": true,\n        \"statusCode\": 200,\n        \"headers\": {\n            \"headerName\": \"headerValue\"\n        },\n        \"body\": \"...\"\n    });\n        })\n        .catch(err => {\n            console.log(err, err.stack);\n            callback(err); // an error occurred\n        });\n\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -41,17 +43,83 @@
             "id": "e655722b-c667-4140-ab19-ec60f04dc663",
             "name": "Test event",
             "functionId": "429c74c4-9e87-410d-833f-9e626f5e1025",
-            "event": "{\"key1\": \"value1\", \"key2\": \"value2\", \"key3\": \"value3\"}",
+            "event": "{\r\n    \"key1\": \"value1\",\r\n    \"key2\": \"value2\",\r\n    \"key3\": \"value3\"\r\n}",
             "eventTemplate": "hello-world"
           }
         }
+      },
+      "6681999b-e672-4400-99d4-43fbcd62f5d8": {
+        "id": "6681999b-e672-4400-99d4-43fbcd62f5d8",
+        "parent": "288ad299-f965-4c29-845c-a86f58d4f2e0",
+        "name": "recognize.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "hiru1609_sigma/recognize.js",
+        "code": "let AWS = require('aws-sdk');\nconst recog = new AWS.Rekognition();\nexports.handler = function(event, context, callback) {\n    recog.detectLabels({\n        Image:{\n            S3Object:{\n                Bucket: bucket,\n                Name: name\n            }\n        },\n        Readlabels : 1\n    }).promise()\n    .then(data =>{\n\n    })\n    .catch(err => {\n            console.log(err, err.stack);\n            callback(err); // an error occurred\n        });\n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [
+          {
+            "resourceName": "s3hirudinee0508",
+            "config": {
+              "type": "s3:ObjectCreated:*",
+              "keyPrefix": "",
+              "keySuffix": ""
+            }
+          }
+        ],
+        "customSecurityPolicy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Resource": "*",
+              "Action": [
+                "rekognition:DetectLabels"
+              ]
+            }
+          ]
+        }
+      },
+      "53704339-93a4-4ae2-9c83-eab0509b7b30": {
+        "id": "53704339-93a4-4ae2-9c83-eab0509b7b30",
+        "parent": "288ad299-f965-4c29-845c-a86f58d4f2e0",
+        "name": "testhiru.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "hiru1609_sigma/testhiru.js",
+        "code": "exports.handler = function(event, context, callback) {\n    console.log(event);\n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [
+          {
+            "resourceName": "apigusEast2hirudemotestpost",
+            "config": {}
+          }
+        ]
       }
     },
     "rootNode": "288ad299-f965-4c29-845c-a86f58d4f2e0",
     "openFiles": [
-      "429c74c4-9e87-410d-833f-9e626f5e1025"
+      "429c74c4-9e87-410d-833f-9e626f5e1025",
+      "6681999b-e672-4400-99d4-43fbcd62f5d8",
+      "53704339-93a4-4ae2-9c83-eab0509b7b30"
     ],
-    "currentFileId": "429c74c4-9e87-410d-833f-9e626f5e1025",
+    "currentFileId": "53704339-93a4-4ae2-9c83-eab0509b7b30",
     "resources": {
       "apigusEast2hirudemouploadpost": {
         "name": "apigusEast2hirudemouploadpost",
@@ -81,6 +149,25 @@
             "region": "us-east-2",
             "name": "hirudinee0508"
           }
+        }
+      },
+      "apigusEast2hirudemotestpost": {
+        "name": "apigusEast2hirudemotestpost",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-2",
+          "apiMode": 0,
+          "apiName": "hirudemo",
+          "endpointType": "EDGE",
+          "resourceMode": 0,
+          "resourceName": "test",
+          "resourcePath": "/test",
+          "restMethod": "POST",
+          "proxyIntegration": false,
+          "enableCORS": false,
+          "stageMode": 0,
+          "stageName": "Test",
+          "mode": 0
         }
       }
     },
@@ -117,7 +204,7 @@
     "projectRegion": "us-east-2",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1568633079936
+    "lastSave": 1568636277293
   },
   "VCS_STATE": {
     "provider": "GitHub",
