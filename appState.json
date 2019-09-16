@@ -1,0 +1,101 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "288ad299-f965-4c29-845c-a86f58d4f2e0": {
+        "id": "288ad299-f965-4c29-845c-a86f58d4f2e0",
+        "parent": null,
+        "name": "hiru1609_sigma",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "429c74c4-9e87-410d-833f-9e626f5e1025"
+        ],
+        "isRemovable": false,
+        "filePath": "hiru1609_sigma"
+      },
+      "429c74c4-9e87-410d-833f-9e626f5e1025": {
+        "id": "429c74c4-9e87-410d-833f-9e626f5e1025",
+        "parent": "288ad299-f965-4c29-845c-a86f58d4f2e0",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "hiru1609_sigma/lambda.js",
+        "code": "exports.handler = function(event, context, callback) {\n    console.log(event);\n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [
+          {
+            "resourceName": "apigusEast2hirudemouploadpost",
+            "config": {}
+          }
+        ]
+      }
+    },
+    "rootNode": "288ad299-f965-4c29-845c-a86f58d4f2e0",
+    "openFiles": [
+      "429c74c4-9e87-410d-833f-9e626f5e1025"
+    ],
+    "currentFileId": "429c74c4-9e87-410d-833f-9e626f5e1025",
+    "resources": {
+      "apigusEast2hirudemouploadpost": {
+        "name": "apigusEast2hirudemouploadpost",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-2",
+          "apiMode": 0,
+          "apiName": "hirudemo",
+          "endpointType": "EDGE",
+          "resourceMode": 0,
+          "resourceName": "upload",
+          "resourcePath": "/upload",
+          "restMethod": "POST",
+          "proxyIntegration": true,
+          "enableCORS": false,
+          "stageMode": 0,
+          "stageName": "Test",
+          "mode": 0
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": null
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {}
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "hiru1609_sigma",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-2",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1568631654290
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "hiru1609_sigma",
+      "url": "https://github.com/HirudineeADRT/hiru1609_sigma"
+    }
+  }
+}
