@@ -16,13 +16,13 @@
       "429c74c4-9e87-410d-833f-9e626f5e1025": {
         "id": "429c74c4-9e87-410d-833f-9e626f5e1025",
         "parent": "288ad299-f965-4c29-845c-a86f58d4f2e0",
-        "name": "lambda.js",
+        "name": "uploader.js",
         "type": "JS_LAMBDA",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
-        "filePath": "hiru1609_sigma/lambda.js",
-        "code": "exports.handler = function(event, context, callback) {\n    console.log(event);\n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "filePath": "hiru1609_sigma/uploader.js",
+        "code": "exports.handler = function(event, context, callback) {\n    console.log(event);\n    callback(null, {\n        \"isBase64Encoded\": true,\n        \"statusCode\": 200,\n        \"headers\": {\n                \"headerName\": \"headerValue\"\n            },\n        \"body\": \"...\"});\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -35,7 +35,16 @@
             "resourceName": "apigusEast2hirudemouploadpost",
             "config": {}
           }
-        ]
+        ],
+        "testCases": {
+          "e655722b-c667-4140-ab19-ec60f04dc663": {
+            "id": "e655722b-c667-4140-ab19-ec60f04dc663",
+            "name": "Test event",
+            "functionId": "429c74c4-9e87-410d-833f-9e626f5e1025",
+            "event": "{\"key1\": \"value1\", \"key2\": \"value2\", \"key3\": \"value3\"}",
+            "eventTemplate": "hello-world"
+          }
+        }
       }
     },
     "rootNode": "288ad299-f965-4c29-845c-a86f58d4f2e0",
@@ -89,7 +98,7 @@
     "projectRegion": "us-east-2",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1568631654290
+    "lastSave": 1568632188826
   },
   "VCS_STATE": {
     "provider": "GitHub",
