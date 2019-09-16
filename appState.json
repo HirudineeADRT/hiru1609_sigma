@@ -22,7 +22,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "hiru1609_sigma/uploader.js",
-        "code": "exports.handler = function(event, context, callback) {\n    console.log(event);\n    callback(null, {\n        \"isBase64Encoded\": true,\n        \"statusCode\": 200,\n        \"headers\": {\n                \"headerName\": \"headerValue\"\n            },\n        \"body\": \"...\"});\n}",
+        "code": "let AWS = require('aws-sdk');\nconst s3 = new AWS.S3();\n\nexports.handler = function (event, context, callback) {\n    console.log(event);\n\n    s3.putObject({\n        \"Body\": image,\n        \"Bucket\": \"hirudinee0508\",\n        \"Key\": \"test\",\n        \"ACL\": \"public-read\"\n    })\n        .promise()\n        .then(data => {\n            console.log(data);           \n                callback(null, {\n        \"isBase64Encoded\": true,\n        \"statusCode\": 200,\n        \"headers\": {\n            \"headerName\": \"headerValue\"\n        },\n        \"body\": \"...\"\n    });\n        })\n        .catch(err => {\n            console.log(err, err.stack);\n            callback(err); // an error occurred\n        });\n\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -71,6 +71,17 @@
           "stageName": "Test",
           "mode": 0
         }
+      },
+      "s3hirudinee0508": {
+        "name": "s3hirudinee0508",
+        "type": "S3",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "region": "us-east-2",
+            "name": "hirudinee0508"
+          }
+        }
       }
     },
     "customTemplate": {
@@ -88,7 +99,15 @@
       }
     ],
     "packageJSON": {
-      "dependencies": {}
+      "dependencies": {
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "language": "javascript",
+          "version": "2.176.0",
+          "dev": true,
+          "notRemovable": false
+        }
+      }
     }
   },
   "PROJECT_META": {
@@ -98,7 +117,7 @@
     "projectRegion": "us-east-2",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1568632188826
+    "lastSave": 1568633079936
   },
   "VCS_STATE": {
     "provider": "GitHub",
